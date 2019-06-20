@@ -1,5 +1,19 @@
 # blood-tcr-pipeline
+This pipeline takes either 10X cellranger outputs for two tissues (always needed to generate metadata) or an existing Seurat object stored in an .RDS file, finds matching
+clones based on TCR chain sequences between these samples, either creates or
+loads a Seurat object, creates a custom metadata table, then write this modified
+Seurat object out to an .rds file.
 Below are some example commands to run the pipeline.
+
+---
+
+## Unified Metadata Format
+After running this pipeline, the modified metadata in the outputted Seurat v3
+object accessible at `seurat_object_name@meta.data` will have the following
+format:
+
+| Cell Barcode | orig.ident | nCount_RNA | nFeature_RNA | RNA_snn_res.1.2 | seurat_clusters | matching | u1 | u1 | freq | Frequency |
+
 
 ---
 
@@ -35,5 +49,9 @@ Run `conda activate R` followed by `Rscript append_metadata_to_seurat_object.R /
 ---
 
 ## Create New Seurat Object and Add TCR metadata
-Run `conda activate R` followed by `Rscript make_seurat_object_from_scratch.R /Users/jacobluber/dfci_share/jacob/data/K409/K409/K409LNGEXouts/outs/filtered_gene_bc_matrices/GRCh38/ k409_ln-blood.csv ~/singer_repos/blood-tcr-pipeline/ k409_test` where the first argument is the full path to the directory containing the cellranger GEX sparse expression matrix, and the remaining arguments are the same as the previous instructions for appending metadata.
+Run `conda activate R` followed by `Rscript make_seurat_object_from_scratch.R /Users/jacobluber/dfci_share/jacob/data/K409/K409/K409LNGEXouts/outs/filtered_gene_bc_matrices/GRCh38/ k409_ln-blood.csv ~/singer_repos/blood-tcr-pipeline/ k409_ln` where the first argument is the full path to the directory containing the cellranger GEX sparse expression matrix, and the remaining arguments are the same as the previous instructions for appending metadata.
 
+This script needs to be run twice: once for blood and once for tumor.
+
+## Load modified Seurat v3 .rds file into R
+Run `seurat_object_name <- readRDS("k409_ln.rds")`.
