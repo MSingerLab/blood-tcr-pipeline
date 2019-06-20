@@ -13,7 +13,7 @@ object accessible at `seurat_object_name@meta.data` will have the following
 format:
 
 | Cell Barcode | orig.ident | nCount_RNA | nFeature_RNA | RNA_snn_res.1.2 | seurat_clusters | matching | u1 | u1 | freq | Frequency |
-
+|---|---|---|---|---|---|---|---|---|---|---|
 
 ---
 
