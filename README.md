@@ -10,10 +10,16 @@ Below are some example commands to run the pipeline.
 ## Unified Metadata Format
 After running this pipeline, the modified metadata in the outputted Seurat v3
 object accessible at `seurat_object_name@meta.data` will have the following
-format:
+format (with definitions of what the data is rather than actual data):
 
 | Cell Barcode | orig.ident | nCount_RNA | nFeature_RNA | RNA_snn_res.1.2 | seurat_clusters | matching | u1 | u1 | freq | Frequency |
 |---|---|---|---|---|---|---|---|---|---|---|
+|10X barcode for this individual cell|not-used,artifact from processing|number of reads in this
+cell|number of genes detected in this cell|Seurat cluster (duplicate)|Seurat
+Cluster|whether the TCR of this cell was detected in paired tissue|UMAP 1
+coordinate| UMAP 2 coordinate|Frequency of TCR (number of total cells detected
+in) with NAs added to generate color scales for expansion plots in
+webapp|Frequency|TCR sequence in the format of TRA\|TRB|
 
 ---
 
