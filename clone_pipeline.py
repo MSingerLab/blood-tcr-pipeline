@@ -151,7 +151,7 @@ def make_tsne_output(input_fh,output_fh,matching_set,other_set):
                     assert len(set(clonotype.geta()).intersection(aset)) > 0 and len(set(clonotype.getb()).intersection(bset)) > 0
                     #confirm that separate a and b chain matches are assigned to different clonotypes
                     assert len(set(b_matches[0]).intersection(set(a_matches[0]))) == 0
-                    output_fh.write(lines.rstrip()+",not_matching,"+clonotype.frequency+'\n')
+                    output_fh.write(lines.rstrip()+",not_matching,"+clonotype.frequency+','+clonotype.getname()+'\n')
             else:
                 # one matching chain, missing second chain --- counted as hit
                 state1 = False
@@ -192,22 +192,25 @@ def make_tsne_output(input_fh,output_fh,matching_set,other_set):
                                             clonotype_dict[strkey] = [[lines.rstrip(),"matching",clonotype.frequency,clonotype.getname()]]
                     if not state1:
                         #NEED
+                        assert(len(clonotype.getname()) > 1)
                         output_fh.write(lines.rstrip()+",not_matching,"+clonotype.frequency+','+clonotype.getname()+'\n')
                 else:
                     #NEED
+                    assert(len(clonotype.getname()) > 1)
                     output_fh.write(lines.rstrip()+",not_matching,"+clonotype.frequency+','+clonotype.getname()+'\n')
         else:
             if count == 0:
                 output_fh.write(lines.rstrip()+",Group,Frequency,Tcr\n")
                 count = 1
             else:
+                assert(len(clonotype.getname()) > 1)
                 output_fh.write(lines.rstrip()+",no_clonotype,1,notcr\n")
     return clonotype_dict
 
 tumors = make_tsne_output(tp_fh,output_tp_fh,tumor_clonotypes,blood_clonotypes)
 bloods = make_tsne_output(bp_fh,output_bp_fh,blood_clonotypes,tumor_clonotypes)
 
-print bloods
+#print bloods
 
 intersection = set(bloods.keys()).intersection(set(tumors.keys()))
 
@@ -220,7 +223,7 @@ def write_out_matches(d,intersection,fh):
             print "hit"
             for x in d[key]:
                 x[1] = "not_matching"
-                fh.write(",".join(x)+'\n')
+                #fh.write(",".join(x)+'\n')
 
 
 
